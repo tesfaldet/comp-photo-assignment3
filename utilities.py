@@ -31,3 +31,11 @@ def gaussLapImage(I, sigma):
 
 def sobelGradientMagImage(I):
     return generic_gradient_magnitude(I, sobel)
+
+
+def customChoose(choices, I):
+    rows = choices.shape[0]
+    cols = choices.shape[1]
+    return np.array([I[choices[i, j], i, j]
+                     for i in range(rows)
+                     for j in range(cols)]).reshape((rows, cols, -1))

@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib
-matplotlib.use('macosx')  # for rendering to work
+matplotlib.use('tkagg')  # for rendering to work
 import matplotlib.pyplot as plt
 from scipy import misc
 import glob
@@ -16,14 +16,14 @@ def focusImage(images):
 
     # get indices of image corresponding to max laplacian response, per-pixel
     max_indices = np.argmax(limages, axis=0)
-    plt.imshow(max_indices, cmap=plt.cm.get_cmap('Set1'))
-    plt.colorbar(cmap=plt.cm.get_cmap('Set1'))
+    plt.imshow(max_indices, cmap=plt.cm.get_cmap('plasma'))
+    plt.colorbar(cmap=plt.cm.get_cmap('plasma'))
     plt.show()
 
     # get rid of noise using median filter
     max_indices = median_filter(max_indices, 10)  # slow
-    plt.imshow(max_indices, cmap=plt.cm.get_cmap('Set1'))
-    plt.colorbar(cmap=plt.cm.get_cmap('Set1'))
+    plt.imshow(max_indices, cmap=plt.cm.get_cmap('plasma'))
+    plt.colorbar(cmap=plt.cm.get_cmap('plasma'))
     plt.show()
 
     # per-pixel, measure variance of gradients across images
@@ -48,13 +48,12 @@ def focusImage(images):
     plt.show()
 
     # create max image
-    mimage = np.ndarray.choose(max_indices[..., np.newaxis], images)
+    mimage = customChoose(max_indices, images)
     plt.imshow(mimage)
     plt.show()
 
     # create focused image (not as good as just using max image)
-    fimage = np.ndarray.choose(dmap[..., np.newaxis],
-                               np.stack([wimage, mimage]))
+    fimage = customChoose(dmap, np.stack([wimage, mimage]))
     plt.imshow(fimage)
     plt.show()
 
