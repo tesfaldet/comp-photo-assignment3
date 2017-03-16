@@ -110,9 +110,10 @@ for i in range(PSF.shape[0]):
     for j in range(PSF.shape[1]):
         f = im[i*block_size:(i+1)*block_size, j*block_size:(j+1)*block_size]
         h = gauss_impulse_response(f, PSF[i, j])
-        f_deblurred = restoration.wiener(f, h, 1, clip=False)
+        f_deblurred = restoration.wiener(f, h, 0.5, clip=False)
         deblurred[i*block_size:(i+1)*block_size,
                   j*block_size:(j+1)*block_size] = f_deblurred
 
 # write it to disk
-misc.imsave('T2/deblurred_image.png', deblurred)
+deblurred = np.clip(deblurred, 0, 255)
+misc.imsave('T2/deblurred_image.png', deblurred.astype('uint8'))
