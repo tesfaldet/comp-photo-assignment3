@@ -9,9 +9,9 @@ from utilities import *
 
 def focusImage(images):
     # compute laplacian of images and gradient mag of images
-    limages = laplacianImage(rgb2gray(images))
+    limages = laplacianImages(rgb2gray(images))
     lsum = np.sum(limages, axis=0)
-    gimages = gaussLapImage(rgb2gray(images), 2)
+    gimages = gaussLapImages(rgb2gray(images), 2)
     gsum = np.sum(gimages, axis=0)
 
     # get indices of image corresponding to max laplacian response, per-pixel
